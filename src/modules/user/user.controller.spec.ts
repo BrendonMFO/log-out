@@ -33,4 +33,16 @@ describe('User Controller', () => {
 
     mock.mockReset();
   });
+
+  it('should be unauthorized', async () => {
+    const mock = jest
+      .spyOn(userService, 'userHasAuthorization')
+      .mockImplementation(() => new Promise(resolve => resolve(false)));
+
+    const hasAuthorization = await controller.hasAuthorization(1, 1);
+
+    expect(hasAuthorization).toBe(false);
+
+    mock.mockReset();
+  });
 });

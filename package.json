@@ -1,8 +1,8 @@
 {
   "name": "log-out",
   "version": "0.0.1",
-  "description": "",
-  "author": "",
+  "description": "Application to manage and share users.",
+  "author": "Brendon Oliveira",
   "license": "MIT",
   "scripts": {
     "prebuild": "rimraf dist",

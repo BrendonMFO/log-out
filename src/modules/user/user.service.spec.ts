@@ -27,4 +27,14 @@ describe('UserService', () => {
 
     expect(authorized).toBe(true);
   });
+
+  it('should be unauthorized', async () => {
+    Object.defineProperty(service, 'findOne', {
+      get: () => () => new Promise(resolve => resolve(null)),
+    });
+
+    const authorized = await service.userHasAuthorization(1, 1);
+
+    expect(authorized).toBe(false);
+  });
 });
