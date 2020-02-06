@@ -7,10 +7,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import {
-  IsIn,
-  IsInt,
   IsString,
   MaxLength,
+  IsBoolean,
   IsOptional,
   IsNotEmpty,
 } from 'class-validator';
@@ -29,7 +28,7 @@ export class User {
   @MaxLength(255, { always: true })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @Column({ type: 'string', length: 255, nullable: false })
+  @Column({ type: 'varchar', length: 255, nullable: false })
   name: string;
 
   @ApiProperty()
@@ -37,13 +36,12 @@ export class User {
   @MaxLength(100, { always: true })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @Column({ type: 'string', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 100, nullable: false })
   login: string;
 
   @ApiProperty()
-  @IsInt({ always: true })
+  @IsBoolean({ always: true })
   @IsOptional({ always: true })
-  @IsIn([0, 1], { always: true })
   @Column({ type: 'tinyint', nullable: false, default: 1 })
   active: boolean;
 

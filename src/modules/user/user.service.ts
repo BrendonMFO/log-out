@@ -10,6 +10,14 @@ export class UserService extends TypeOrmCrudService<User> {
     super(userRepository);
   }
 
+  async addRole(userId: number, roleId: number) {
+    await this.repo
+      .createQueryBuilder()
+      .relation(User, 'roles')
+      .of(userId)
+      .add(roleId);
+  }
+
   async userHasAuthorization(userId: number, roleId: number) {
     const user = await this.findOne({
       relations: ['roles'],

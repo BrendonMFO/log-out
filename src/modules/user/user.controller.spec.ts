@@ -20,6 +20,7 @@ describe('User Controller', () => {
 
   it('should be defined', () => {
     expect(controller).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   it('should be authorized', async () => {
@@ -42,6 +43,20 @@ describe('User Controller', () => {
     const hasAuthorization = await controller.hasAuthorization(1, 1);
 
     expect(hasAuthorization).toBe(false);
+
+    mock.mockReset();
+  });
+
+  it('should be insert a role correctly', async () => {
+    const mock = jest
+      .spyOn(userService, 'addRole')
+      .mockImplementation(() => new Promise(resolve => resolve()));
+
+    const result = await controller.addRole({ userId: 1, roleId: 2 });
+
+    expect(result).toMatchObject({
+      message: 'Successful',
+    });
 
     mock.mockReset();
   });
