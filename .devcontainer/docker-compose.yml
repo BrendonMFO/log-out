@@ -1,0 +1,42 @@
+version: '3'
+services:
+  mysqldb:
+    image: mysql:5.6
+    ports:
+      - "3327:3306"
+    networks:
+      - outcenter
+    volumes:
+      - data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=aaa123
+      - MYSQL_DATABASE=log_out
+
+  logout_redis:
+    image: redis
+    container_name: logout_redis
+    networks:
+      - outcenter
+
+  app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+    - "3001:3001"
+    links:
+      - logout_redis
+    volumes:
+      - ..:/workspace:cached
+      - /var/run/docker.sock:/var/run/docker.sock 
+    networks:
+      - outcenter
+    depends_on: ["mysqldb", "logout_redis"]
+    command: sleep infinity 
+
+volumes:
+  data:
+
+networks:
+  outcenter:
+    external: true
