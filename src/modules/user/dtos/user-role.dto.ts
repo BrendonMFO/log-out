@@ -1,6 +1,6 @@
 import { IsPositive } from 'class-validator';
 
-export class UserAddRoleDto {
+export class UserRoleDto {
   @IsPositive({
     always: true,
     message: 'The field $property must be a positive number.',

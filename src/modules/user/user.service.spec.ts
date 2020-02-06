@@ -55,4 +55,14 @@ describe('UserService', () => {
     expect(repositoryQueryBuilderMock.of).toBeCalledWith(userId);
     expect(repositoryQueryBuilderMock.add).toBeCalledWith(roleId);
   });
+
+  it('should be remove a role correctly', () => {
+    const userId = 1;
+    const roleId = 2;
+    service.removeRole(userId, roleId);
+    expect(repository.createQueryBuilder).toBeCalled();
+    expect(repositoryQueryBuilderMock.relation).toBeCalledWith(User, 'roles');
+    expect(repositoryQueryBuilderMock.of).toBeCalledWith(userId);
+    expect(repositoryQueryBuilderMock.remove).toBeCalledWith(roleId);
+  });
 });

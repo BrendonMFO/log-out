@@ -36,10 +36,11 @@ export class User {
   @MaxLength(100, { always: true })
   @IsOptional({ groups: [CrudValidationGroups.UPDATE] })
   @IsNotEmpty({ groups: [CrudValidationGroups.CREATE] })
-  @Column({ type: 'varchar', length: 100, nullable: false })
+  @Column({ type: 'varchar', length: 100, nullable: false, unique: true })
   login: string;
 
   @ApiProperty()
+  @Type(() => Boolean)
   @IsBoolean({ always: true })
   @IsOptional({ always: true })
   @Column({ type: 'tinyint', nullable: false, default: 1 })

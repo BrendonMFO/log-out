@@ -28,7 +28,10 @@ describe('User Controller', () => {
       .spyOn(userService, 'userHasAuthorization')
       .mockImplementation(() => new Promise(resolve => resolve(true)));
 
-    const hasAuthorization = await controller.hasAuthorization(1, 1);
+    const hasAuthorization = await controller.hasAuthorization({
+      userId: 1,
+      roleId: 1,
+    });
 
     expect(hasAuthorization).toBe(true);
 
@@ -40,7 +43,10 @@ describe('User Controller', () => {
       .spyOn(userService, 'userHasAuthorization')
       .mockImplementation(() => new Promise(resolve => resolve(false)));
 
-    const hasAuthorization = await controller.hasAuthorization(1, 1);
+    const hasAuthorization = await controller.hasAuthorization({
+      userId: 1,
+      roleId: 1,
+    });
 
     expect(hasAuthorization).toBe(false);
 
@@ -53,6 +59,20 @@ describe('User Controller', () => {
       .mockImplementation(() => new Promise(resolve => resolve()));
 
     const result = await controller.addRole({ userId: 1, roleId: 2 });
+
+    expect(result).toMatchObject({
+      message: 'Successful',
+    });
+
+    mock.mockReset();
+  });
+
+  it('should be remove a role correctly', async () => {
+    const mock = jest
+      .spyOn(userService, 'removeRole')
+      .mockImplementation(() => new Promise(resolve => resolve()));
+
+    const result = await controller.removeRole({ userId: 1, roleId: 2 });
 
     expect(result).toMatchObject({
       message: 'Successful',

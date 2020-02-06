@@ -11,11 +11,11 @@ export class UserService extends TypeOrmCrudService<User> {
   }
 
   async addRole(userId: number, roleId: number) {
-    await this.repo
-      .createQueryBuilder()
-      .relation(User, 'roles')
-      .of(userId)
-      .add(roleId);
+    await this.queryUserRoles(userId).add(roleId);
+  }
+
+  async removeRole(userId: number, roleId: number) {
+    await this.queryUserRoles(userId).remove(roleId);
   }
 
   async userHasAuthorization(userId: number, roleId: number) {
@@ -31,5 +31,12 @@ export class UserService extends TypeOrmCrudService<User> {
       },
     });
     return user != null;
+  }
+
+  private queryUserRoles(userId: number) {
+    return this.repo
+      .createQueryBuilder()
+      .relation(User, 'roles')
+      .of(userId);
   }
 }
