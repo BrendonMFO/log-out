@@ -27,7 +27,7 @@ export class ApiConfigService {
   get databaseConfig(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
-      synchronize: true,
+      synchronize: false,
       entities: getRegisterEntities(),
       host: this.configService.get('TYPEORM_HOST'),
       database: this.configService.get('TYPEORM_DATABASE'),
