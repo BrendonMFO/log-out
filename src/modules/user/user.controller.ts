@@ -28,7 +28,7 @@ export class UserController {
 
   @Post('has-authorization')
   @MessagePattern({ cmd: 'check' })
-  async hasAuthorization({ userId, roleId }: UserRoleDto) {
+  async hasAuthorization(@Body() { userId, roleId }: UserRoleDto) {
     return await this.service.userHasAuthorization(userId, roleId);
   }
 }
