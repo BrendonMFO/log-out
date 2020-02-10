@@ -24,7 +24,7 @@ describe('User Controller', () => {
   });
 
   it('should be authorized', async () => {
-    const mock = jest
+    jest
       .spyOn(userService, 'userHasAuthorization')
       .mockImplementation(() => new Promise(resolve => resolve(true)));
 
@@ -34,12 +34,10 @@ describe('User Controller', () => {
     });
 
     expect(hasAuthorization).toBe(true);
-
-    mock.mockReset();
   });
 
   it('should be unauthorized', async () => {
-    const mock = jest
+    jest
       .spyOn(userService, 'userHasAuthorization')
       .mockImplementation(() => new Promise(resolve => resolve(false)));
 
@@ -49,12 +47,10 @@ describe('User Controller', () => {
     });
 
     expect(hasAuthorization).toBe(false);
-
-    mock.mockReset();
   });
 
   it('should be insert a role correctly', async () => {
-    const mock = jest
+    jest
       .spyOn(userService, 'addRole')
       .mockImplementation(() => new Promise(resolve => resolve()));
 
@@ -63,12 +59,10 @@ describe('User Controller', () => {
     expect(result).toMatchObject({
       message: 'Successful',
     });
-
-    mock.mockReset();
   });
 
   it('should be remove a role correctly', async () => {
-    const mock = jest
+    jest
       .spyOn(userService, 'removeRole')
       .mockImplementation(() => new Promise(resolve => resolve()));
 
@@ -77,7 +71,5 @@ describe('User Controller', () => {
     expect(result).toMatchObject({
       message: 'Successful',
     });
-
-    mock.mockReset();
   });
 });

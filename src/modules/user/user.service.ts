@@ -19,18 +19,15 @@ export class UserService extends TypeOrmCrudService<User> {
   }
 
   async userHasAuthorization(userId: number, roleId: number) {
-    const user = await this.findOne({
-      relations: ['roles'],
-      where: {
-        id: userId,
-        active: 1,
-        roles: {
-          id: roleId,
-          active: 1,
-        },
-      },
-    });
-    return user != null;
+    const userRoleCount = await this.repo
+      .createQueryBuilder('user')
+      .innerJoin('user.roles', 'roles')
+      .where('user.id = :userId', { userId })
+      .andWhere('user.active = 1')
+      .andWhere('roles.id = :roleId', { roleId })
+      .andWhere('roles.active = 1')
+      .getCount();
+    return userRoleCount !== 0;
   }
 
   private queryUserRoles(userId: number) {

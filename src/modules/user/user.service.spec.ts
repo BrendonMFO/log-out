@@ -16,7 +16,6 @@ describe('UserService', () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [UserService, getRepositoryProviderMock(User)],
     }).compile();
-
     service = module.get<UserService>(UserService);
     repository = module.get<Repository<User>>(getRepositoryToken(User));
   });
@@ -27,22 +26,14 @@ describe('UserService', () => {
   });
 
   it('should be authorized', async () => {
-    Object.defineProperty(service, 'findOne', {
-      get: () => () => new Promise(resolve => resolve(new User())),
-    });
-
+    jest.spyOn(repositoryQueryBuilderMock, 'getCount').mockReturnValue(1);
     const authorized = await service.userHasAuthorization(1, 1);
-
     expect(authorized).toBe(true);
   });
 
   it('should be unauthorized', async () => {
-    Object.defineProperty(service, 'findOne', {
-      get: () => () => new Promise(resolve => resolve(null)),
-    });
-
+    jest.spyOn(repositoryQueryBuilderMock, 'getCount').mockReturnValue(0);
     const authorized = await service.userHasAuthorization(1, 1);
-
     expect(authorized).toBe(false);
   });
 
