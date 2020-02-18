@@ -17,7 +17,7 @@ async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const apiConfigService = app.get(ApiConfigService);
   bootstrapSwagger(app);
-  app.connectMicroservice(apiConfigService.redisConfig);
+  app.connectMicroservice(apiConfigService.grpcCongig(__dirname));
   await app.startAllMicroservicesAsync();
   await app.listen(apiConfigService.apiConfig.port);
 }

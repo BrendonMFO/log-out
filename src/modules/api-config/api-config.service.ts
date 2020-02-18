@@ -1,3 +1,4 @@
+import { join } from 'path';
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -15,15 +16,6 @@ export class ApiConfigService {
     };
   }
 
-  get redisConfig() {
-    return {
-      transport: Transport.REDIS,
-      options: {
-        url: this.configService.get('REDIS_URL'),
-      },
-    };
-  }
-
   get databaseConfig(): TypeOrmModuleOptions {
     return {
       type: 'mysql',
@@ -37,6 +29,16 @@ export class ApiConfigService {
       migrations: [this.configService.get('TYPEORM_MIGRATIONS')],
       logging: Boolean(this.configService.get('TYPEORM_LOGGING')),
       migrationsRun: Boolean(this.configService.get('TYPEORM_MIGRATIONS_RUN')),
+    };
+  }
+
+  grpcCongig(basePath: string) {
+    return {
+      transport: Transport.GRPC,
+      options: {
+        package: ['user'],
+        protoPath: [join(basePath, 'modules/user/user.proto')],
+      },
     };
   }
 }

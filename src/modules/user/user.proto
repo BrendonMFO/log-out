@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc AddRole(UserRoleDtoType) returns (ResponseType) {}
+  rpc RemoveRole(UserRoleDtoType) returns (ResponseType) {}
+  rpc HasAuthorization(UserRoleDtoType) returns (ResponseType) {}
+}
+
+message UserRoleDtoType {
+  int32 userId = 1;
+  int32 roleId = 2;
+}
+
+message ResponseType {
+  string message = 1;
+}
