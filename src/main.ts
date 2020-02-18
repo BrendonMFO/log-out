@@ -7,7 +7,7 @@ import { ApiConfigService } from './modules/api-config/api-config.service';
 function bootstrapSwagger(app: NestExpressApplication) {
   const options = new DocumentBuilder()
     .setTitle('Log-Out')
-    .setVersion('0.0.2')
+    .setVersion('0.0.4')
     .build();
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);

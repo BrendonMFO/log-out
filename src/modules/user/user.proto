@@ -5,7 +5,7 @@ package user;
 service UserService {
   rpc AddRole(UserRoleDtoType) returns (ResponseType) {}
   rpc RemoveRole(UserRoleDtoType) returns (ResponseType) {}
-  rpc HasAuthorization(UserRoleDtoType) returns (ResponseType) {}
+  rpc HasAuthorization(UserRoleDtoType) returns (ResponseHasAuthorizationType) {}
 }
 
 message UserRoleDtoType {
@@ -15,4 +15,10 @@ message UserRoleDtoType {
 
 message ResponseType {
   string message = 1;
+}
+
+message ResponseHasAuthorizationType {
+  int32 userId = 1;
+  int32 roleId = 2;
+  bool authorized = 3;
 }

@@ -1,5 +1,5 @@
 import * as request from 'supertest';
-import { DeepPartial } from 'typeorm';
+import { DeepPartial, Connection } from 'typeorm';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../src/modules/app.module';
@@ -9,8 +9,9 @@ import { ApiConfigTestService } from '../src/modules/api-config/api-config.test.
 
 describe('Role (e2e)', () => {
   let app: INestApplication;
+  let databaseConnection: Connection;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -18,10 +19,15 @@ describe('Role (e2e)', () => {
       .useClass(ApiConfigTestService)
       .compile();
     app = moduleFixture.createNestApplication();
+    databaseConnection = app.get<Connection>(Connection);
     await app.init();
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    await databaseConnection.synchronize(true);
+  });
+
+  afterAll(async () => {
     await app.close();
   });
 
@@ -36,9 +42,8 @@ describe('Role (e2e)', () => {
       .expect(201)
       .expect((res: { body: DeepPartial<Role> }) => {
         expect(res.body).toMatchObject({
-          id: 1,
-          description: roleDto.description,
           active: true,
+          description: roleDto.description,
         });
       });
   });

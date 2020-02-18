@@ -29,6 +29,7 @@ export class UserController {
   @Post('has-authorization')
   @GrpcMethod('UserService', 'HasAuthorization')
   async hasAuthorization(@Body() { userId, roleId }: UserRoleDto) {
-    return await this.service.userHasAuthorization(userId, roleId);
+    const authorized = await this.service.userHasAuthorization(userId, roleId);
+    return { userId, roleId, authorized };
   }
 }

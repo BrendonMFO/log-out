@@ -33,7 +33,11 @@ describe('User Controller', () => {
       roleId: 1,
     });
 
-    expect(hasAuthorization).toBe(true);
+    expect(hasAuthorization).toMatchObject({
+      userId: 1,
+      roleId: 1,
+      authorized: true,
+    });
   });
 
   it('should be unauthorized', async () => {
@@ -46,7 +50,11 @@ describe('User Controller', () => {
       roleId: 1,
     });
 
-    expect(hasAuthorization).toBe(false);
+    expect(hasAuthorization).toMatchObject({
+      userId: 1,
+      roleId: 1,
+      authorized: false,
+    });
   });
 
   it('should be insert a role correctly', async () => {

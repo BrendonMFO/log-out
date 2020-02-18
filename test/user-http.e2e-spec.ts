@@ -1,6 +1,6 @@
 import * as request from 'supertest';
-import { DeepPartial, Connection } from 'typeorm';
 import { INestApplication } from '@nestjs/common';
+import { DeepPartial, Connection } from 'typeorm';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AppModule } from '../src/modules/app.module';
 import { User } from '../src/modules/user/user.entity';
@@ -9,11 +9,11 @@ import { UserRoleDto } from '../src/modules/user/dtos/user-role.dto';
 import { ApiConfigService } from '../src/modules/api-config/api-config.service';
 import { ApiConfigTestService } from '../src/modules/api-config/api-config.test.service';
 
-describe('User (e2e)', () => {
+describe('User HTTP (e2e)', () => {
   let app: INestApplication;
   let databaseConnection: Connection;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
     })
@@ -26,7 +26,11 @@ describe('User (e2e)', () => {
     await app.init();
   });
 
-  afterEach(async () => {
+  beforeEach(async () => {
+    await databaseConnection.synchronize(true);
+  });
+
+  afterAll(async () => {
     await app.close();
   });
 
@@ -42,10 +46,9 @@ describe('User (e2e)', () => {
       .expect(201)
       .expect((res: { body: DeepPartial<User> }) => {
         expect(res.body).toMatchObject({
-          id: 1,
+          active: true,
           name: userDto.name,
           login: userDto.login,
-          active: true,
         });
       });
   });
