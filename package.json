@@ -27,7 +27,7 @@
     "@hapi/joi": "^17.1.0",
     "@nestjs/common": "^6.11.5",
     "@nestjs/config": "^0.1.0",
-    "@nestjs/core": "^6.11.5",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/microservices": "^6.11.5",
     "@nestjs/platform-express": "^6.11.5",
     "@nestjs/swagger": "^4.2.4",
